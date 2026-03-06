@@ -3,6 +3,7 @@ from database import init_db, save_record, get_records
 from calculator import calculate_zakaat
 from ai_explainer import generate_explanation
 from gold_silver_price import get_gold_silver_price_per_gram
+from charts import zakaat_breakdown_chart
 
 init_db()
 
@@ -72,6 +73,17 @@ if st.button("Calculate Zakaat"):
         silver_price,
         nisab_method
     )
+
+    asset_data = [
+        cash,
+        gold,
+        investments,
+        loans,
+        business
+    ]
+
+    fig = zakaat_breakdown_chart(asset_data)
+    st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("📊 Results")
     st.write(f"Total Zakatable Assets: {currency} {total:.2f}")
