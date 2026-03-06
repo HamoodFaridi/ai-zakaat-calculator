@@ -56,3 +56,14 @@ def save_record(data):
 
     conn.commit()
     conn.close()
+
+def get_records():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.row_factory = sqlite3.Row
+
+    cursor.execute("SELECT * FROM zakaat_records ORDER BY date DESC")
+
+    records = cursor.fetchall()
+    conn.close()
+    
+    return records

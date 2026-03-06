@@ -1,18 +1,23 @@
-import subprocess
+import ollama
 
 def generate_explanation(summary_text, model = "llama3:latest"):
     prompt = f"""
     Explain the following Zakaat calculation clearly and briefly:
     {summary_text}
-    Explain why Zakaat is 2.5% and what Nisab means
+
+    Explain:
+    1. What Nisab means
+    2. Why Zakaat is 2.5%
+    3. Whether the person owes Zakaat or not
     """
     try:
-        result = subprocess.run(
-            ["ollama", "run", model],
-            input = prompt.encode(),
-            stdout = subprocess.PIPE,
-            strderr = subprocess.PIPE
+        response = ollama.chat(
+            model = model,
+            messages = [{
+                "role": "user",
+                "content": prompt
+            }]
         )
-        return result.stdout.decode()
-    except:
-        return "AI explanation unavailable"
+        return response["message"]["content"]
+    except Exception as e:
+        return f"AI explanation unavailable: {e}"
