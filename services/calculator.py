@@ -2,7 +2,7 @@ ZAKAAT_RATE = 0.025
 NISAB_GRAMS_GOLD = 87.48
 NISAB_GRAMS_SILVER = 612.36
 
-def calculate_zakaat(data, gold_price_per_gram, silver_price_per_gram, nisab_method):
+def calculate_zakat(data, gold_price_per_gram, silver_price_per_gram, nisab_method):
     
     if nisab_method == "Gold (87.48g)":
         nisab_threshold = gold_price_per_gram * NISAB_GRAMS_GOLD
@@ -11,9 +11,9 @@ def calculate_zakaat(data, gold_price_per_gram, silver_price_per_gram, nisab_met
 
     total_assets = (
         data["cash"] +
-        data["investments"] +
         data["gold"] +
         data["silver"] +
+        data["investments"] +
         data["business"] +
         data["rental"] +
         data["loans"] -
@@ -21,8 +21,8 @@ def calculate_zakaat(data, gold_price_per_gram, silver_price_per_gram, nisab_met
     )
 
     if total_assets >= nisab_threshold:
-        zakaat_due = total_assets * ZAKAAT_RATE
+        zakat_due = total_assets * ZAKAAT_RATE
     else:
-        zakaat_due = 0
+        zakat_due = 0
     
-    return total_assets, nisab_threshold, zakaat_due
+    return total_assets, nisab_threshold, zakat_due
